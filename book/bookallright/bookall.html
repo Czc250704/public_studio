@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>书库</title>
+    <!-- 引入亮色和暗色两套样式表，确保切换功能正常 -->
+    <link rel="stylesheet" href="bookall.css">
+    <link rel="stylesheet" href="../bookallblack/bbookall.css">
+    <script src="bookall.js" defer></script>
+</head>
+<body>
+    <!-- 将导航栏包裹在固定容器中，实现粘性定位效果 -->
+    <div class="fixed-header-container">
+        <!-- 顶部通栏 -->
+        <div class="top-header">
+            <div class="header-title">书库</div>
+        </div>
+
+        <!-- 工具栏导航栏 -->
+        <div class="nav-bar">
+            <div class="nav-links">
+                <a href="#">书库简介</a>
+                <a href="#">复制</a>
+                <a href="#">复制书本链接</a>
+                <a href="#" id="toggle-theme-btn">夜间模式</a>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-trigger">属性</a>
+                    <div class="dropdown-menu">
+                        <a href="#">修改分类</a>
+                        <a href="#">书籍标签</a>
+                        <a href="#">隐私设置</a>
+                    </div>
+                </div>
+                <a href="#" onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;">返回顶部</a>
+            </div>
+
+            <div class="nav-tools">
+                <label for="search-input">搜索</label>
+                <input type="text" id="search-input" placeholder="输入书名或作者...">
+                
+                <label for="adv-search-input">高级检索</label>
+                <input type="text" id="adv-search-input" placeholder="条件筛选...">
+                
+                <span id="current-time">时间</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主体书籍卡片展示区（内容由 JS 动态生成） -->
+    <div class="main-content" id="book-card-container">
+        <!-- 此处内容将通过 bookall.js 渲染 -->
+    </div>
+</body>
+</html>

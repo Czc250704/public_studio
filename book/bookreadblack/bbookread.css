@@ -1,0 +1,26 @@
+/* 书库阅读页 - 暗色模式叠加样式 */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --nav-bg: #2c2c2c;
+    --panel-bg: #383838;
+    --content-bg: #2a2928;
+    --input-bg: #4a4a4a;
+    --border-color: #444;
+}
+body.dark-mode .top-header { background-color: #c05a1a; }
+body.dark-mode .nav-links a { color: #cccccc; }
+body.dark-mode .nav-links a:hover { color: #e67e22; }
+body.dark-mode .nav-tools label { color: #cccccc; }
+body.dark-mode .nav-tools select { background-color: #555555; color: #fff; }
+body.dark-mode .nav-tools #current-page { color: #e67e22; }
+
+body.dark-mode .panel-header { color: #ccc; border-bottom-color: #444; }
+body.dark-mode .chapter-list li { color: #bbb; }
+body.dark-mode .chapter-list li:hover { background-color: rgba(230, 126, 34, 0.3); }
+
+body.dark-mode .left-panel { border-right-color: #444; }
+body.dark-mode .center-panel { background-color: #1a1a1a; }
+
+/* 滚动条暗色适配 */
+body.dark-mode::-webkit-scrollbar-track { background: #2c2c2c; }
+body.dark-mode::-webkit-scrollbar-thumb { background: #c05a1a; }
