@@ -1,0 +1,115 @@
+/* 主页特有样式 */
+
+/* --- 启动画面 (Splash Screen) 样式 --- */
+.splash-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #faf6ef; /* 与主页面背景一致，保证过渡自然 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* 确保位于最上层 */
+}
+
+.splash-title {
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: #e67e22; /* 标志性的橙色 */
+    font-family: "PingFang SC", sans-serif;
+}
+
+/* --- 主菜单 (Main Content) 样式 --- */
+.main-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: #faf6ef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* 背景装饰弧线，模拟效果图两侧的淡色曲线 */
+.bg-decoration {
+    position: absolute;
+    width: 1200px;
+    height: 1200px;
+    border-radius: 50%;
+    background-color: #f4ead8; /* 比背景深一点的米色 */
+    z-index: 0;
+    pointer-events: none; /* 防止遮挡点击 */
+}
+
+.bg-decoration.top-right {
+    top: -600px;
+    right: -400px;
+}
+
+.bg-decoration.bottom-left {
+    bottom: -600px;
+    left: -400px;
+}
+
+/* 中心 Logo */
+.center-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #e67e22;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 12px 40px;
+    border-radius: 50px; /* 椭圆胶囊形状 */
+    z-index: 2;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(230, 126, 34, 0.2);
+}
+
+/* 菜单网格布局：2x2 排列 */
+.menu-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* 核心修改：大幅增加间距。垂直间距拉到150px，水平间距拉到200px */
+    gap: 150px 200px; 
+    z-index: 1;
+    /* 适当下移整体网格，让中间Logo与上排菜单有合理的垂直距离 */
+    margin-top: 30px; 
+}
+
+/* 每个入口按钮 */
+.menu-item {
+    /* 略微缩小按钮尺寸，让四周留出更多空白空间，视觉更舒展 */
+    width: 160px;
+    height: 100px;
+    background-color: #e67e22;
+    border-radius: 80px 80px 0 0; /* 半径也跟着尺寸微调保持一致 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-size: 28px; /* 字体相应微调，保持比例 */
+    font-weight: 300;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 12px rgba(230, 126, 34, 0.1);
+}
+
+/* 鼠标悬浮时的反馈效果，增加交互感 */
+.menu-item:hover {
+    transform: scale(1.04);
+    box-shadow: 0 8px 16px rgba(230, 126, 34, 0.3);
+}
+
+/* 点击时的按动效果 */
+.menu-item:active {
+    transform: scale(0.96);
+}

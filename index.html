@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Studio - 主页</title>
+    
+    <!-- 引入模块化公共资源，保持结构清晰 -->
+    <link rel="stylesheet" href="modules/common.css">
+    <link rel="stylesheet" href="index.css">
+    
+    <!-- 引入全局工具脚本，并 defer 延迟执行 -->
+    <script src="modules/global.js" defer></script>
+    <script src="index.js" defer></script>
+</head>
+<body>
+
+    <!-- 第一层：启动过渡画面 (初始显示) -->
+    <div id="splash-screen" class="splash-container">
+        <div class="splash-content">
+            <h1 class="splash-title">Public Studio</h1>
+        </div>
+    </div>
+
+    <!-- 第二层：主菜单画面 (初始隐藏，动画完成后显示) -->
+    <div id="main-content" class="main-container hidden">
+        
+        <!-- 背景装饰弧线，模拟效果图中的淡色曲线 -->
+        <div class="bg-decoration top-right"></div>
+        <div class="bg-decoration bottom-left"></div>
+
+        <!-- 中心圆形 Logo 按钮 -->
+        <div class="center-logo">
+            <span>Public Studio</span>
+        </div>
+
+        <!-- 四个入口图标，使用 Grid 布局排列 -->
+        <div class="menu-grid">
+            <!-- 书库入口：指向书库模块的亮色模式主页面 -->
+            <div class="menu-item" onclick="navigateTo('book/bookallright/bookall.html')">
+                <span>书库</span>
+            </div>
+            
+            <!-- 论坛入口：指向预留的论坛模块 -->
+            <div class="menu-item" onclick="navigateTo('askall/askall.html')">
+                <span>论坛</span>
+            </div>
+            
+            <!-- 产品入口：指向预留的产品模块 -->
+            <div class="menu-item" onclick="navigateTo('proall/proall.html')">
+                <span>产品</span>
+            </div>
+            
+            <!-- 关于入口：指向预留的关于你模块 -->
+            <div class="menu-item" onclick="navigateTo('secretall/secretall.html')">
+                <span>关于</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

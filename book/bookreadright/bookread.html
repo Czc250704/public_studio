@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>书库 - 阅读</title>
+    <!-- 引入亮色和暗色两套样式表 -->
+    <link rel="stylesheet" href="bookread.css">
+    <link rel="stylesheet" href="../bookreadblack/bbookread.css"> 
+    <!-- 核心底层：引入 Mozilla 官方的 PDF.js 作为不依赖浏览器的解析引擎 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="bookread.js" defer></script>
+</head>
+<body>
+    <div class="fixed-header-container">
+        <div class="top-header"><div class="header-title">书库</div></div>
+        <div class="nav-bar">
+            <div class="nav-links">
+                <a href="#">书本简介</a>
+                <a href="#">复制</a>
+                <a href="#">复制书本链接</a>
+                <a href="#" id="toggle-theme-btn">夜间模式</a>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-trigger">属性</a>
+                    <div class="dropdown-menu">
+                        <a href="#">字体设置</a>
+                        <a href="#">行距设置</a>
+                        <a href="#">书签管理</a>
+                    </div>
+                </div>
+                <a href="#">下载</a>
+                <a href="../../../index.html" onclick="return confirm('确认返回书库主页吗？');">返回</a>
+            </div>
+            <div class="nav-tools">
+                <label for="chapter-select">搜索章节</label>
+                <select id="chapter-select"><option>无章节</option></select>
+                <span id="current-time">时间</span>
+                <!-- 加入专属的页码显示，颜色通过 CSS 控制 -->
+                <span id="current-page" class="custom-page-display">当前页码：0/0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="reading-container">
+        <!-- 左侧目录 -->
+        <div class="left-panel">
+            <div class="panel-header">目录 快速跳转</div>
+            <ul class="chapter-list" id="chapter-list-container">
+                <!-- 由 JS 动态渲染 -->
+            </ul>
+        </div>
+        
+        <!-- 中间核心阅读区 - 使用原生 Canvas 代替浏览器的 iframe -->
+        <div class="center-panel">
+            <!-- 左右翻页箭头 -->
+            <div class="nav-arrow left-arrow" id="prev-page-btn"> &lt; </div>
+            
+            <!-- 自定义渲染的 PDF 画卷 -->
+            <div class="pdf-viewport">
+                <canvas id="pdf-render-canvas"></canvas>
+            </div>
+
+            <div class="nav-arrow right-arrow" id="next-page-btn"> &gt; </div>
+        </div>
+    </div>
+</body>
+</html>
