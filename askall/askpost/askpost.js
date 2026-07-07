@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     updateTime(); setInterval(updateTime, 1000);
 
-    // 2. 夜间模式切换（独立配套）
+    // 2. 夜间模式切换
     const toggleBtn = document.getElementById('toggle-theme-btn');
     if (toggleBtn) {
         toggleBtn.addEventListener('click', function(e) {
@@ -17,13 +17,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 3. 读取从主页传递过来的帖子数据（sessionStorage）
-    const currentPostStr = sessionStorage.getItem('current_ask_post');
-    if (!currentPostStr) {
-        document.querySelector('.post-detail-header').innerHTML = '<h1 style="color:#999;text-align:center;">未找到帖子，请返回列表重新点击</h1>';
+    // 3. 【关键修复】从 URL 的 ?id=xxx 中获取帖子 ID
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = parseInt(urlParams.get('id')); // 把字符串转换为数字
+
+    // 从全局本地数据库里找出这篇帖子
+    let allPosts = JSON.parse(localStorage.getItem('ask_posts_data'));
+    // 如果没有数据，给个空数组防止报错
+    if (!allPosts) allPosts = [];
+
+    // 根据 ID 找到唯一的那篇帖子
+    const currentPost = allPosts.find(p => p.id === postId);
+
+    if (!currentPost) {
+        // 如果找不到（例如用户把 id 参数删了），显示您截图里的错误提示
+        document.querySelector('.post-detail-header').innerHTML = '<h1 style="color:#999;text-align:center;padding:40px 0;">未找到帖子，请返回列表重新点击</h1>';
+        document.querySelector('.post-content').style.display = 'none';
+        document.querySelector('.comment-section').style.display = 'none';
         return;
     }
-    const currentPost = JSON.parse(currentPostStr);
 
     // 4. 渲染帖子信息
     document.getElementById('detail-title').textContent = currentPost.title;
@@ -71,24 +83,22 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // 构建评论数据
+        // 构建评论
         const newComment = {
             author: nickname,
             content: content,
             time: new Date().toLocaleDateString('zh-CN') + ' ' + new Date().toLocaleTimeString('zh-CN', {hour:'2-digit',minute:'2-digit'})
         };
 
-        // 添加到本地数组
+        // 添加到当前帖子
         currentPost.comments.push(newComment);
-        // 更新 sessionStorage
-        sessionStorage.setItem('current_ask_post', JSON.stringify(currentPost));
 
-        // 同步更新全局 localStorage (让主页的评论数也能正确显示)
-        let allPosts = JSON.parse(localStorage.getItem('ask_posts_data'));
-        const foundIndex = allPosts.findIndex(p => p.id === currentPost.id);
+        // 必须重新把修改后的帖子保存回全局的 localStorage 数组里
+        const allPostsUpdated = JSON.parse(localStorage.getItem('ask_posts_data'));
+        const foundIndex = allPostsUpdated.findIndex(p => p.id === postId);
         if (foundIndex !== -1) {
-            allPosts[foundIndex] = currentPost;
-            localStorage.setItem('ask_posts_data', JSON.stringify(allPosts));
+            allPostsUpdated[foundIndex] = currentPost;
+            localStorage.setItem('ask_posts_data', JSON.stringify(allPostsUpdated));
         }
 
         // 清空输入并刷新评论列表

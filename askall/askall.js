@@ -17,14 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 3. 数据管理核心 （使用本地存储 localStorage 模拟真实后端持久化）
+    // 3. 数据管理核心 （使用本地存储 localStorage）
     let postsData = JSON.parse(localStorage.getItem('ask_posts_data'));
     if (!postsData || postsData.length === 0) {
-        // 如果没有数据，提供初始默认数据
+        // 默认数据
         postsData = [
-            { id: 1, title: '对于自研 PDF 阅读器的一点技术心得', excerpt: '在脱离 iframe 和内置插件进行 PDF 渲染的过程中，遇到了很多关于 Canvas 绘制的坑...', author: '小橙子', time: '2026-07-06', comments: ['太棒了，我也正好需要这个方案！', '顺便问一句，目录高亮联动是怎么做的？'] },
-            { id: 2, title: '液态玻璃效果在网页中的实际应用', excerpt: '最近尝试在导航栏和卡片中加入 backdrop-filter，视觉效果提升明显...', author: '前端小能手', time: '2026-07-05', comments: [] },
-            { id: 3, title: '基于 JSON 动态生成书库列表的最佳实践', excerpt: '将书籍元数据隔离到独立的 JSON 文件中，前后端分离非常彻底...', author: '架构师小明', time: '2026-07-04', comments: [] }
+            { id: 1, title: '对于自研 PDF 阅读器的一点技术心得', excerpt: '在脱离 iframe 和内置插件进行 PDF 渲染的过程中...', author: '小橙子', time: '2026-07-06', comments: [] },
+            { id: 2, title: '液态玻璃效果在网页中的实际应用', excerpt: '最近尝试在导航栏和卡片中加入 backdrop-filter...', author: '前端小能手', time: '2026-07-05', comments: [] },
+            { id: 3, title: '基于 JSON 动态生成书库列表的最佳实践', excerpt: '将书籍元数据隔离到独立的 JSON 文件中...', author: '架构师小明', time: '2026-07-04', comments: [] }
         ];
         localStorage.setItem('ask_posts_data', JSON.stringify(postsData));
     }
@@ -39,10 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
         postsData.forEach(function(post, index) {
             const card = document.createElement('div');
             card.className = 'post-card';
-            // 点击跳转时将当前帖子完整数据通过 sessionStorage 传给详情页
+            // 【关键修复】：点击跳转时，只把 帖子 ID 传给 URL
             card.onclick = function() {
-                sessionStorage.setItem('current_ask_post', JSON.stringify(post));
-                window.location.href = 'askpost/askpost.html';
+                window.location.href = 'askpost/askpost.html?id=' + post.id;
             };
             card.innerHTML = `
                 <div class="post-title">${post.title}</div>
@@ -58,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     renderPosts();
 
-    // 4. 新增搜索过滤功能
+    // 4. 搜索过滤功能
     const searchInput = document.getElementById('search-input');
     if (searchInput) {
         searchInput.addEventListener('input', function() {
@@ -84,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.target === modal) { modal.style.display = 'none'; }
     };
 
-    // 6. 真实发帖逻辑（保存到 localStorage）
+    // 6. 发帖逻辑
     submitBtn.onclick = function() {
         const titleInput = document.getElementById('post-title-input');
         const contentInput = document.getElementById('post-content-input');
@@ -96,9 +95,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // 创建新帖子对象
         const newPost = {
-            id: Date.now(),
+            id: Date.now(), // 使用时间戳作为唯一的数字 ID
             title: title,
             excerpt: content.length > 60 ? content.substring(0, 60) + '...' : content,
             author: '访客用户',
@@ -109,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
         postsData.unshift(newPost);
         localStorage.setItem('ask_posts_data', JSON.stringify(postsData));
         
-        // 清空输入、关闭弹窗、重新渲染页面
         titleInput.value = '';
         contentInput.value = '';
         modal.style.display = 'none';
