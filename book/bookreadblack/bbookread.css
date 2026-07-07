@@ -1,35 +1,35 @@
-/* 书库阅读页 - 暗色模式叠加样式 */
+/* 暗色模式核心变量覆盖 */
 body.dark-mode {
     --bg-color: #1a1a1a;
-    --nav-bg: #2c2c2c;
-    --panel-bg: #383838;
-    --content-bg: #2a2928;
+    --nav-bg: rgba(44, 44, 44, 0.45); /* 加深的玻璃底色 */
+    --panel-bg: rgba(56, 56, 56, 0.45);
     --input-bg: #4a4a4a;
-    --border-color: #444;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --text-main: #e0e0e0;
+    --text-muted: #aaaaaa;
+    --page-num-color: #e67e22;
 }
+
+body.dark-mode .sticky-top-container { background-color: rgba(26, 26, 26, 0.7); }
+
 body.dark-mode .top-header { background-color: #c05a1a; }
-body.dark-mode .nav-links a { color: #cccccc; }
+
+body.dark-mode .nav-links a { color: var(--text-main); }
 body.dark-mode .nav-links a:hover { color: #e67e22; }
-body.dark-mode .nav-tools label { color: #cccccc; }
-body.dark-mode .nav-tools select { background-color: #555555; color: #fff; }
-body.dark-mode .nav-tools #current-page { color: #e67e22; }
+body.dark-mode .nav-tools label { color: var(--text-main); }
 
-body.dark-mode .panel-header { color: #ccc; border-bottom-color: #444; }
-body.dark-mode .chapter-list li { color: #bbb; }
-body.dark-mode .chapter-list li:hover { background-color: rgba(230, 126, 34, 0.3); }
+body.dark-mode .dropdown-menu { border-color: rgba(255, 255, 255, 0.1); }
+body.dark-mode .dropdown-menu a { color: var(--text-main) !important; }
+body.dark-mode .dropdown-menu a:hover { background: rgba(230, 126, 34, 0.2); color: #e67e22 !important; }
 
-body.dark-mode .left-panel { border-right-color: #444; }
-body.dark-mode .center-panel { background-color: #1a1a1a; }
+body.dark-mode .left-panel { border-right-color: rgba(255, 255, 255, 0.05); }
+body.dark-mode .chapter-list li { color: var(--text-muted); }
+body.dark-mode .chapter-list li:hover { color: #e67e22; }
+/* 暗色模式下激活状态依然是鲜艳的橙色 */
+body.dark-mode .chapter-list li.active { background: #e67e22; color: #ffffff !important; box-shadow: 0 4px 10px rgba(230, 126, 34, 0.3); }
 
-/* 滚动条暗色适配 */
-body.dark-mode::-webkit-scrollbar-track { background: #2c2c2c; }
+body.dark-mode .pdf-viewport { background: #2a2928; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+
+body.dark-mode .nav-arrow { color: #c05a1a; }
+
 body.dark-mode::-webkit-scrollbar-thumb { background: #c05a1a; }
-
-/* 追加上下拉框暗色适配 */
-body.dark-mode .nav-tools select { background-color: #555; color: #fff; border: 1px solid #666; }
-body.dark-mode .custom-page-display { color: #e67e22; } /* 确保暗黑模式下页码依然是亮橙色 */
-
-/* 确保导航栏下拉菜单在暗色模式下不挤在一起，正常换行显示 */
-body.dark-mode .dropdown-menu { background-color: #333; border: 1px solid #555; }
-body.dark-mode .dropdown-menu a { color: #ccc !important; }
-body.dark-mode .dropdown-menu a:hover { background-color: #444; }

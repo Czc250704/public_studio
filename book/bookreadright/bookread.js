@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 配置 PDF.js 的 Worker 路径，用于解析底层 PDF
+    // 配置 PDF.js 的处理线程文件
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-    // 声明变量
+    // 基础变量
     let pdfDoc = null;
     let currentPage = 1;
     let totalPages = 0;
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const chapterListContainer = document.getElementById('chapter-list-container');
     const chapterSelect = document.getElementById('chapter-select');
 
-    // 实时时间更新
+    // 实时时钟
     function updateTime() {
         const now = new Date();
         const hours = String(now.getHours()).padStart(2, '0');
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateTime();
     setInterval(updateTime, 1000);
 
-    // 夜间模式切换（解决切换功能问题）
+    // 夜间模式切换
     const toggleBtn = document.getElementById('toggle-theme-btn');
     if (toggleBtn) {
         toggleBtn.addEventListener('click', function(e) {
@@ -38,26 +38,26 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 解析 URL 参数
+    // 获取 URL 传递的 book ID
     const urlParams = new URLSearchParams(window.location.search);
-    const fileId = urlParams.get('file'); // 获取书籍 id
+    const fileId = urlParams.get('file'); 
 
     if (!fileId) {
-        document.querySelector('.center-panel').innerHTML = '<p style="color:#999;margin-top:50px;">未选择任何书籍，请返回主界面重试</p>';
+        document.querySelector('.pdf-viewport').innerHTML = '<p style="color:#999;margin:50px auto;">未选择任何书籍，请返回主界面</p>';
         return;
     }
 
     const pdfPath = `../pdfs/${fileId}.pdf`;
     const chapterJsonPath = `../pdfs/${fileId}_chapters.json`;
 
-    // ---------- 自定义 PDF 渲染核心逻辑 ----------
+    // ---------- 自定义渲染引擎 ----------
     function renderPage(num) {
         if (isRendering) {
             pendingPage = num;
             return;
         }
         isRendering = true;
-        pageDisplay.textContent = `当前页码：加载中`;
+        pageDisplay.textContent = '加载中...';
 
         pdfDoc.getPage(num).then(function(page) {
             const viewport = page.getViewport({ scale: 1.5 });
@@ -71,16 +71,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 isRendering = false;
                 currentPage = num;
                 pageDisplay.textContent = `当前页码：${currentPage}/${totalPages}`;
-                
+                // 渲染完毕，如果需要继续翻页
                 if (pendingPage !== null) {
                     renderPage(pendingPage);
                     pendingPage = null;
                 }
             });
         }).catch(function(error) {
-            console.error("PDF 渲染出错:", error);
+            console.error("PDF 渲染错误:", error);
             isRendering = false;
-            pageDisplay.textContent = `当前页码：加载失败`;
+            pageDisplay.textContent = `加载失败`;
         });
     }
 
@@ -90,31 +90,30 @@ document.addEventListener('DOMContentLoaded', function() {
         renderPage(num);
     }
 
-    // 绑定翻页按钮
+    // 绑定箭头翻页
     prevBtn.addEventListener('click', function() { queueRenderPage(currentPage - 1); });
     nextBtn.addEventListener('click', function() { queueRenderPage(currentPage + 1); });
 
-    // ---------- 加载 PDF 文件和目录 JSON ----------
+    // ---------- 数据与目录加载 ----------
     async function loadPdfAndChapters() {
         try {
-            // 1. 加载并解析 PDF (不使用 iframe，全靠 PDF.js 解析到 Canvas)
+            // 加载 PDF 底层数据
             const loadingTask = pdfjsLib.getDocument(pdfPath);
             pdfDoc = await loadingTask.promise;
             totalPages = pdfDoc.numPages;
             pageDisplay.textContent = `当前页码：1/${totalPages}`;
             renderPage(1);
 
-            // 2. 加载对应的目录 JSON
+            // 加载章节数据
             const response = await fetch(chapterJsonPath);
-            if (!response.ok) throw new Error("目录文件不存在");
+            if (!response.ok) throw new Error("未找到目录文件");
             const chapters = await response.json();
             
-            // 成功获取后，渲染目录与下拉框
             chapterListContainer.innerHTML = '';
             chapterSelect.innerHTML = '<option value="">搜索章节跳转</option>';
 
             chapters.forEach((chapter) => {
-                // 渲染左侧目录
+                // 生成列表
                 const li = document.createElement('li');
                 li.textContent = chapter.title;
                 li.dataset.page = chapter.page;
@@ -123,14 +122,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 chapterListContainer.appendChild(li);
 
-                // 渲染顶部下拉框
+                // 生成下拉框
                 const option = document.createElement('option');
                 option.value = chapter.page;
                 option.textContent = chapter.title;
                 chapterSelect.appendChild(option);
             });
 
-            // 下拉框跳转联动
+            // 下拉框联动
             chapterSelect.addEventListener('change', function() {
                 const targetPage = parseInt(this.value);
                 if (targetPage > 0) {
@@ -142,34 +141,24 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
         } catch (error) {
-            console.warn("加载出错:", error.message);
-            // 彻底消除截图里莫名其妙的 "测试"，用明确的状态提示代替
-            chapterListContainer.innerHTML = '<li class="empty-msg">此书本暂无目录文件</li>';
-            chapterSelect.innerHTML = '<option>无章节</option>';
+            chapterListContainer.innerHTML = '<li class="empty-msg">暂无目录文件</li>';
+            chapterSelect.innerHTML = '<option>无可用章节</option>';
         }
     }
 
-    // ---------- 核心联动函数：页码跳转与颜色高亮 ----------
+    // ---------- 目录点击跳转与高亮联动 ----------
     function jumpToPage(element, pageNum) {
-        // 移除所有列表项的高亮类
         document.querySelectorAll('.chapter-list li').forEach(li => li.classList.remove('active'));
-        
-        // 给当前元素添加高亮类（颜色变化）
         if (element) {
             element.classList.add('active');
         }
-
-        // 调用自定义的渲染系统直接跳转页面
         queueRenderPage(pageNum);
-        
-        // 下拉框同步当前值
         chapterSelect.value = pageNum;
     }
 
-    // 执行全部初始化
     loadPdfAndChapters();
 
-    // 退出页面时的清理
+    // 页面卸载时销毁 PDF 文档，防止内存泄漏
     window.addEventListener('beforeunload', function() {
         if (pdfDoc) {
             pdfDoc.destroy();
