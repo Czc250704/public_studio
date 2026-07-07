@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>论坛 - 帖子详情</title>
+    <link rel="stylesheet" href="../askall.css">
+    <link rel="stylesheet" href="../../askall/baskall.css">
+    <script src="../askall.js" defer></script>
+</head>
+<body>
+    <div class="fixed-header-container">
+        <div class="top-header"><div class="header-title">论坛</div></div>
+        <div class="nav-bar">
+            <div class="nav-links">
+                <a href="../askall.html">返回列表</a>
+                <a href="#">回复帖子</a>
+                <a href="#" id="toggle-theme-btn">夜间模式</a>
+            </div>
+            <div class="nav-tools">
+                <span id="current-time">时间</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 帖子主体 -->
+    <div class="forum-container" style="flex-direction: column; max-width: 800px;">
+        <div class="post-detail-header">
+            <h1>对于自研 PDF 阅读器的一点技术心得</h1>
+            <div class="post-meta" style="margin-top: 10px; color: #999; font-size: 13px;">
+                作者：小橙子 &nbsp;|&nbsp; 发布时间：2026-07-06 &nbsp;|&nbsp; 浏览：156次
+            </div>
+        </div>
+
+        <div class="post-content" style="background: var(--card-bg); border-radius: 12px; padding: 30px; margin-top: 20px; line-height: 1.8; color: #444;">
+            <p>在书库模块的开发过程中，我们决定放弃使用浏览器内置的 iframe 预览 PDF，而是转而采用基于 canvas 的绘制方式。</p>
+            <br>
+            <p>这样做的核心优势在于：我们可以完全控制页面的翻页逻辑、转场动画，甚至可以实现类似于移动端 APP 那样的平滑滚动阅读体验，而不受限于 PDF 阅读器的默认行为。</p>
+            <br>
+            <p>在经过多次尝试后，调用 pdf.js 配合渲染队列，实现了极快的切换速度和极低的 CPU 占用率。</p>
+        </div>
+
+        <div class="comment-section" style="margin-top: 40px; border-top: 2px solid var(--border-color); padding-top: 20px;">
+            <h3 style="color: #666;">全部评论 (12)</h3>
+            <div class="comment-item" style="background: var(--nav-bg); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                <div style="font-weight: bold; color: var(--header-bg);">前端小能手</div>
+                <div style="font-size: 14px; margin-top: 5px; color: #555;">太棒了，我也正好需要这个方案，能留个联系方式交流吗？</div>
+            </div>
+            <div class="comment-item" style="background: var(--nav-bg); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                <div style="font-weight: bold; color: var(--header-bg);">架构师小明</div>
+                <div style="font-size: 14px; margin-top: 5px; color: #555;">顺便问一句，你们的目录高亮联动是怎么做的？</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

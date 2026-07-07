@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>论坛</title>
+    <!-- 引入亮色和暗色两套样式表 -->
+    <link rel="stylesheet" href="askall.css">
+    <link rel="stylesheet" href="../askall/baskall.css">
+    <script src="askall.js" defer></script>
+</head>
+<body>
+    <!-- 顶部固定导航 -->
+    <div class="fixed-header-container">
+        <div class="top-header">
+            <div class="header-title">论坛</div>
+        </div>
+
+        <div class="nav-bar">
+            <div class="nav-links">
+                <a href="#">论坛简介</a>
+                <a href="#">复制链接</a>
+                <a href="#" id="toggle-theme-btn">夜间模式</a>
+                <a href="../../../index.html">返回主页</a>
+            </div>
+            <div class="nav-tools">
+                <label for="search-input">搜索帖子</label>
+                <input type="text" id="search-input" placeholder="输入帖子标题...">
+                <span id="current-time">时间</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 论坛主体：两列布局，左侧列表，右侧热门 -->
+    <div class="forum-container">
+        
+        <!-- 左侧：最新帖子列表 -->
+        <div class="main-posts-column">
+            <div class="column-header">
+                <h2>最新讨论</h2>
+                <button class="new-post-btn" onclick="alert('功能预留：点击发布新帖')">+ 发布新帖</button>
+            </div>
+            <div class="post-list" id="post-list-container">
+                <!-- 由 JS 动态生成帖子 -->
+            </div>
+        </div>
+
+        <!-- 右侧：侧边栏（热门/公告） -->
+        <div class="sidebar-column">
+            <div class="sidebar-card">
+                <h3>公告栏</h3>
+                <p style="color: #666; font-size: 14px; margin-top: 10px; line-height: 1.6;">
+                    欢迎来到 Public Studio 论坛。请遵守社区规则，友善交流。
+                </p>
+            </div>
+            <div class="sidebar-card" style="margin-top: 20px;">
+                <h3>热门讨论</h3>
+                <ul class="hot-topic-list">
+                    <li><a href="#">关于 PDF 阅读器的开发讨论</a></li>
+                    <li><a href="#">JavaScript 高级程序设计读后感</a></li>
+                    <li><a href="#">液态玻璃 UI 效果实现分享</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+/* 论坛暗色模式叠加样式 */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --nav-bg: #2c2c2c;
+    --card-bg: #383838;
+    --card-text: #e6b68b;
+    --input-bg: #555555;
+    --border-color: #444;
+    --secondary-text: #cccccc;
+}
+
+body.dark-mode .top-header { background-color: #c05a1a; }
+body.dark-mode .fixed-header-container { background-color: #1a1a1a; box-shadow: 0 2px 6px rgba(0,0,0,0.5); }
+body.dark-mode .nav-links a { color: #cccccc; }
+body.dark-mode .nav-links a:hover { color: #e67e22; }
+body.dark-mode .nav-tools label { color: #cccccc; }
+
+body.dark-mode .column-header h2 { color: #cccccc; border-bottom-color: #444; }
+body.dark-mode .new-post-btn { background-color: #c05a1a; }
+body.dark-mode .new-post-btn:hover { background-color: #a04d17; }
+
+body.dark-mode .post-card { box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+body.dark-mode .post-excerpt { color: #aaaaaa; }
+body.dark-mode .post-meta { color: #888888; }
+
+body.dark-mode .sidebar-card h3 { color: #cccccc; border-bottom-color: #444; }
+body.dark-mode .hot-topic-list a { color: #aaaaaa; }
+body.dark-mode .hot-topic-list a:hover { color: #e67e22; }
+
+body.dark-mode .post-detail-header h1 { color: #e0e0e0; }
+body.dark-mode .post-content { color: #cccccc; background-color: #333333; }
+body.dark-mode .comment-section h3 { color: #cccccc; border-top-color: #444; }
+body.dark-mode .comment-item { background: #2c2c2c !important; }
+body.dark-mode .comment-item div:last-child { color: #aaaaaa; }
+
+body.dark-mode::-webkit-scrollbar-track { background: #2c2c2c; }
+body.dark-mode::-webkit-scrollbar-thumb { background: #c05a1a; }
